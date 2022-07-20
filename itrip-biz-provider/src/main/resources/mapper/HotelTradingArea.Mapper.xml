@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jolinmao.itrip.dao.HotelTradingAreaDao">
+	<select id="queryTradeArea" parameterType="Hotel" resultMap="hotelTradingAreaMap">
+		SELECT
+			ih.id,
+			ih.cityId,
+		    ihta.id tradAreaId,
+		    ihta.hotelId,
+		    ihta.areaId,
+		    ihta.creationDate,
+		    ihta.createdBy,
+		    ihta.modifyDate,
+		    ihta.modifiedBy
+		FROM
+		   itrip_hotel ih JOIN itrip_hotel_trading_area ihta ON ih.id=ihta.hotelId
+		<where>
+			<trim suffixOverrides="and">
+				<if test="id != null">ih.id=${id} and </if>
+				<if test="cityId != null">ih.cityId=${cityId} and </if>
+			</trim>
+		</where>
+	</select>
+
+	<resultMap id="hotelTradingAreaMap" type="HotelTradingArea">
+		<id property="id" javaType="java.lang.Long" column="tradAreaId"/>
+		<result property="hotelId" javaType="java.lang.Long" column="hotelId"/>
+		<result property="areaId" javaType="java.lang.Long" column="areaId"/>
+		<result property="creationDate" javaType="java.util.Date" column="creationDate"/>
+		<result property="createdBy" javaType="java.lang.Long" column="createdBy"/>
+		<result property="modifyDate" javaType="java.util.Date" column="modifyDate"/>
+		<result property="modifiedBy" javaType="java.lang.Long" column="modifiedBy"/>
+	</resultMap>
+</mapper>
